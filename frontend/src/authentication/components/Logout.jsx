@@ -26,6 +26,7 @@ function Logout() {
      * coming from the backend
      */
     toastId.current = toast.error(error);
+    navigate("/login");
   };
 
   const handleOnclick = async (event) => {
