@@ -76,10 +76,11 @@ run tests on the frontend:
 ```
 
 this command will only run unit tests
-in order to test all the functionnalities
-perform end-to-end testing by using libraries such as Cypress
+in order.
+To test all the functionnalities
+perform end-to-end testing by using libraries such as Cypress.
 
-backend testing was done on postman
+backend testing was done on postman.
 
 ## API Reference
 
