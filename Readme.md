@@ -79,6 +79,8 @@ this command will only run unit tests
 in order to test all the functionnalities
 perform end-to-end testing by using libraries such as Cypress
 
+backend testing was done on postman
+
 ## API Reference
 
 #### login
@@ -112,3 +114,7 @@ An example of protected endpoint using a jwt middleware to secure user's data
 ```http
   POST /user
 ```
+
+# Docker
+
+I'm still working on the docker containers, those don't work yet
