@@ -86,6 +86,14 @@ This endpoint is used to register a user
   POST /register
 ```
 
+#### logout
+
+This endpoint is used to sign out a user
+
+```http
+  POST /logout
+```
+
 #### user
 
 An example of protected endpoint using a jwt middleware to secure user's data

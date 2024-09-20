@@ -5,11 +5,21 @@ const User = require("../database/models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+/**
+ * this route is used to authenticate a user
+ */
 router.post("/", async (request, response) => {
+  /**
+   * we query the database if the user exists or not
+   */
   const user = await User.findOne({
     where: { username: request.body.username },
   });
 
+  /**
+   * if the user doesnt exist
+   * sends a response with a 400 status code
+   */
   if (!user) {
     response
       .status(400)
@@ -19,11 +29,24 @@ router.post("/", async (request, response) => {
     return;
   }
 
+  /**
+   * if the user exists
+   * compare the provided password
+   * with the encrypted one inside the database
+   */
   const isPasswordValid = await bcrypt.compare(
     request.body.password,
     user.password
   );
 
+  /**
+   * if the password is valid
+   * we provide a refreshed token to allow
+   * the user to access its data
+   *
+   * the token is then stored into a cookie
+   * and passed to the client side
+   */
   if (isPasswordValid) {
     const token = jwt.sign({ username: user.username }, process.env.JWTSECRET, {
       expiresIn: parseInt(process.env.JWTEXPIRATION),
@@ -45,6 +68,10 @@ router.post("/", async (request, response) => {
       })
     );
   } else {
+    /**
+     * if passwords doesnt match
+     * notifies the user by sending a 403 status
+     */
     response.status(403).send(
       JSON.stringify({
         isLoggedIn: false,
