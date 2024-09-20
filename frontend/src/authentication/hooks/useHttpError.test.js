@@ -35,6 +35,8 @@ describe("useHttpError", () => {
   it("checks if useHttpError handle an unknown error", () => {
     const mockError = {};
     const { result } = renderHook(useHttpError);
-    expect(result.current.readError(mockError)).toBeTypeOf("string");
+    expect(result.current.readError(mockError)).toBe(
+      "Oops! Something bad happened, try again later"
+    );
   });
 });
