@@ -1,4 +1,8 @@
 # Ignore node_modules for backend and frontend
 /backend/node_modules
 /frontend/node_modules
+/frontend/dist
+/backend/dist
 node_modules
+
+#/backend/.env should be here aswell

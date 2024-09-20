@@ -11,6 +11,7 @@ import useAuthStore from "../hooks/useAuthStore";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useHttpError from "../hooks/useHttpError";
 /**
  *
  * this component is used to log in to the application
@@ -47,7 +48,9 @@ function Login() {
    */
   const navigate = useNavigate();
 
-  const { user, loginUser } = useAuthStore();
+  const { loginUser } = useAuthStore();
+
+  const { readError } = useHttpError();
 
   const handleSuccess = (response) => {
     /**
@@ -61,10 +64,10 @@ function Login() {
 
   const handleError = (error) => {
     /**
-     * Notifies the user for any messages
+     * Notifies the user for any errors
      * coming from the backend
      */
-    toastId.current = toast.error(error);
+    toastId.current = toast.error(readError(error));
   };
 
   /**
@@ -81,12 +84,14 @@ function Login() {
      * to validate user's credentials
      */
     await axios
-      .post("http://localhost:3000/login", formData, { withCredentials: true })
+      .post("http://localhost:3000/login", formData, {
+        withCredentials: true,
+      })
       .then((response) => {
         handleSuccess(response.data);
       })
       .catch((error) => {
-        handleError(error.response.data.message);
+        handleError(error);
       });
   };
 

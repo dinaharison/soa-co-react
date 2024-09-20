@@ -4,11 +4,13 @@ import useAuthStore from "../hooks/useAuthStore";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { toast } from "react-toastify";
+import useHttpError from "../hooks/useHttpError";
 
 function Logout() {
   const navigate = useNavigate();
   const { user, logoutUser } = useAuthStore();
   const toastId = useRef(null);
+  const { readError } = useHttpError();
 
   const handleSuccess = (response) => {
     /**
@@ -25,7 +27,7 @@ function Logout() {
      * Notifies the user for any messages
      * coming from the backend
      */
-    toastId.current = toast.error(error);
+    toastId.current = toast.error(readError(error));
     navigate("/login");
   };
 
@@ -51,7 +53,7 @@ function Logout() {
         handleSuccess(response.data);
       })
       .catch((error) => {
-        handleError(error.response.data.message);
+        handleError(error);
       });
   };
 

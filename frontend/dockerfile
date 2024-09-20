@@ -1,0 +1,25 @@
+# Frontend Dockerfile
+FROM node:18-alpine
+
+# Set the working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+RUN npm install -g serve
+
+# Copy the rest of the frontend source code
+COPY . .
+
+# Build the Vite app
+RUN npm run build
+
+# Expose the Vite development server port (if needed for dev)
+EXPOSE 5173
+
+# Start the Vite development server (adjust if needed)
+CMD ["serve", "-s", "dist"]

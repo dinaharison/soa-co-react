@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { toast } from "react-toastify";
 import axios from "axios";
+import useHttpError from "../hooks/useHttpError";
 
 /**
  *
@@ -40,6 +41,8 @@ function Register() {
 
   const toastId = useRef(null);
 
+  const { readError } = useHttpError();
+
   const navigate = useNavigate();
 
   const handleSuccess = (response) => {
@@ -53,11 +56,10 @@ function Register() {
 
   const handleError = (error) => {
     /**
-     * Notifies the user for any messages
+     * Notifies the user for any errors
      * coming from the backend
      */
-
-    toastId.current = toast.error(error);
+    toastId.current = toast.error(readError(error));
   };
 
   /**
@@ -80,7 +82,7 @@ function Register() {
         handleSuccess(response.data.message);
       })
       .catch((error) => {
-        handleError(error.response.data.message);
+        handleError(error);
       });
   };
 
