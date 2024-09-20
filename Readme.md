@@ -68,6 +68,17 @@ to run the frontend:
   npm run dev
 ```
 
+run tests on the frontend:
+
+```bash
+  cd ./frontend
+  npm run test
+```
+
+this command will only run unit tests
+in order to test all the functionnalities
+perform end-to-end testing by using libraries such as Cypress
+
 ## API Reference
 
 #### login

@@ -27,13 +27,14 @@ const useAuthStore = create((set) => ({
    * @param {*} username the username
    */
   loginUser: (isLoggedIn, token, username) => {
-    set({
-      user: {
-        isLoggedIn: isLoggedIn,
-        token: token,
-        username: username,
-      },
-    });
+    set(
+      (state) =>
+        (state.user = {
+          isLoggedIn: isLoggedIn,
+          token: token,
+          username: username,
+        })
+    );
   },
 
   /**
