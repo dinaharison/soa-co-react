@@ -1,5 +1,5 @@
 var express = require("express");
-const authenticationMiddleware = require("../middlewares/authenticationMiddleware");
+const authenticationMiddleware = require("../middlewares/authentication-middleware");
 var router = express.Router();
 
 /**

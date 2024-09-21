@@ -8,6 +8,7 @@ const express = require("express");
 const cors = require("cors");
 const sequelize = require("./database/config");
 const coockieParser = require("cookie-parser");
+const getCorsOptions = require("./middlewares/cors-configuration-middleware");
 var bodyparser = require("body-parser");
 
 /**
@@ -28,12 +29,19 @@ sequelize
  * CORS configuration limits who can access to the backend's functionnalities
  */
 app.use(bodyparser.json());
+
+/**
+ * configure CORS
+ */
+
+//TODO: still have some CORS problems
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: getCorsOptions,
     credentials: true,
   })
 );
+
 app.use(express.urlencoded({ extended: false }));
 app.use(coockieParser());
 

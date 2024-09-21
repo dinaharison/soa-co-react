@@ -1,9 +1,8 @@
 require("dotenv").config();
 var express = require("express");
 var router = express.Router();
-const User = require("../database/models/user");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const UserRepository = require("../database/models/user-repository");
 
 /**
  * this route is used to authenticate a user
@@ -12,20 +11,19 @@ router.post("/", async (request, response) => {
   /**
    * we query the database if the user exists or not
    */
-  const user = await User.findOne({
-    where: { username: request.body.username },
-  });
+  const user = await UserRepository.findOneUserAsync(request.body.username);
 
   /**
    * if the user doesnt exist
    * sends a response with a 400 status code
    */
   if (!user) {
-    response
-      .status(400)
-      .send(
-        JSON.stringify({ isLoggedIn: false, message: "User does not exist" })
-      );
+    response.status(400).send(
+      JSON.stringify({
+        isLoggedIn: false,
+        message: `Cannot find User with provided username : ${request.body.username}`,
+      })
+    );
     return;
   }
 
@@ -34,9 +32,9 @@ router.post("/", async (request, response) => {
    * compare the provided password
    * with the encrypted one inside the database
    */
-  const isPasswordValid = await bcrypt.compare(
-    request.body.password,
-    user.password
+  const isPasswordValid = await UserRepository.comparePasswordsAsync(
+    user.password,
+    request.body.password
   );
 
   /**
@@ -62,7 +60,7 @@ router.post("/", async (request, response) => {
     return response.status(200).send(
       JSON.stringify({
         isLoggedIn: true,
-        message: "Authenticated",
+        message: `Authenticated as ${user.username}`,
         username: user.username,
         token,
       })
@@ -75,7 +73,7 @@ router.post("/", async (request, response) => {
     response.status(403).send(
       JSON.stringify({
         isLoggedIn: false,
-        message: "Invalid login",
+        message: "Provided credentials are invalid",
       })
     );
   }

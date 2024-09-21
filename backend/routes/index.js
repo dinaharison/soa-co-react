@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var authMiddleware = require("../middlewares/authenticationMiddleware");
+var authMiddleware = require("../middlewares/authentication-middleware");
 
 /**
  * example of protected route
