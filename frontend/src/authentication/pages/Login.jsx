@@ -84,9 +84,7 @@ function Login() {
      * to validate user's credentials
      */
     await axios
-      .post("http://localhost:3000/login", formData, {
-        withCredentials: true,
-      })
+      .post("http://localhost:3000/login", formData)
       .then((response) => {
         handleSuccess(response.data);
       })
