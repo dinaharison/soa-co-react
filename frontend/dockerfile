@@ -1,5 +1,5 @@
 # Frontend Dockerfile
-FROM node:18-alpine as frontend_build
+FROM node:18 as FRONTEND_BUILD
 
 # Set the working directory
 WORKDIR /app/frontend
@@ -13,17 +13,25 @@ RUN npm install
 # Copy the rest of the frontend source code
 COPY . .
 
-# build the app
-RUN npm run build
+# # build the app
+# RUN npm run build
 
-# Expose the Vite development server port (if needed for dev)
+# # staging production server
+# FROM node:18 as FRONTEND_IMAGE
+
+# # setting up the directory
+# WORKDIR /app/frontend
+
+# # copy the build
+# COPY --from=FRONTEND_BUILD /app/frontend/dist/ /app/frontend/dist/
+
+RUN npm install vite
+
 EXPOSE 5173
 
-FROM node:18-alpine as frontend_image
+# COPY package.json .
 
-WORKDIR /app/frontend
+# COPY vite.config.js .
 
-COPY --from=frontend_build /app/frontend/dist/ /app/frontend/dist/
-
-# Start the Vite development server (adjust if needed)
-CMD ["npm", "run", "pre"]
+# Start the Vite development server
+CMD ["npm", "run", "dev"]

@@ -6,13 +6,6 @@ import Typography from "@mui/material/Typography";
 
 function Home() {
   const { user } = useAuthStore();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user.isLoggedIn) {
-      navigate("/login");
-    }
-  });
 
   return (
     <div>

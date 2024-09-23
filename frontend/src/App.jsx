@@ -5,6 +5,7 @@ import Register from "./authentication/pages/Register";
 import NotFound from "./home/pages/NotFound";
 import { ToastContainer } from "react-toastify";
 import { Grid2 as Grid } from "@mui/material";
+import ProtectedRoute from "./authentication/components/ProtectedRoute";
 
 function App() {
   return (
@@ -26,7 +27,14 @@ function App() {
       />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="*" element={<NotFound />} />
